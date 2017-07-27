@@ -10,19 +10,18 @@
 </head>
 
 <body>
-
     <div id="contenu"></div>
+
+    <ul id="ulChiens"></ul>
+
     <script>
         doAjax({
             url: 'snippet.html',
             callback: function(reponse) {
-                let parser = new DOMParser(); // ds le cas d'un appendChild
+                let parser = new DOMParser();
                 let snippet = parser
                     .parseFromString(reponse, 'text/html');
-                console.log(snippet.querySelector('section'));
 
-
-                //document.querySelector('#contenu').innerHTML = reponse; ou
                 document.querySelector('#contenu')
                     .appendChild(snippet.querySelector('section'));
             }
@@ -30,7 +29,7 @@
         doAjax({
             url: 'data.json',
             callback: function(reponse) {
-                let objet = JSON.parse(reponse);
+                let objets = JSON.parse(reponse);
                 let ul = document.querySelector('#ulChiens');
                 for (let chien of objets) {
                     let li = document.createElement('li');
@@ -40,7 +39,6 @@
             }
         });
     </script>
-
 </body>
 
 </html>

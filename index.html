@@ -8,14 +8,20 @@
     <title>Mon Premier Ajax</title>
     <script src="scripts/ajax.js"></script>
 
+
+
 </head>
 
 <body>
-
     <p id="para"></p>
-    <button id="requete">Lance Requête</button>
+    <button id="requete">Lance Requête 1</button>
     <p id="para2"></p>
-    <button id="requete2">Lance Requête</button>
+    <button id="requete2">Lance Requête 2</button>
+    <br/>
+
+    <button id="requeteEvil">Lance Roquete Démoniaque</button>
+
+
     <script>
         document.querySelector('#requete')
             .addEventListener('click', function() {
@@ -23,21 +29,37 @@
                     url: 'fichier.txt',
                     callback: function(reponse) {
                         document.querySelector('#para')
-                            .innerHTML(response);
-
+                            .innerHTML = reponse;
                     }
                 });
             });
-        document.querySelector('#requete2').addEventListener('click', function() {
-            doAjax({
-                url: 'README.md',
-                callback: function(reponse) {
-                    let div = document.querySelector('div').innerHTML('#para2');
-                    document.querySelector('#para2')
-                        .innerHTML(response);
-
-                }
+        document.querySelector('#requete2')
+            .addEventListener('click', function() {
+                doAjax({
+                    url: 'README.md',
+                    callback: function(reponse) {
+                        let div = document.createElement('div');
+                        div.innerHTML = reponse;
+                        document.querySelector('#para2')
+                            .appendChild(div);
+                    }
+                });
             });
+
+        let button = document.querySelector('#requeteEvil');
+        button.addEventListener('click', function() {
+            let xhr = new XMLHttpRequest();
+            xhr.open('GET', 'evil.js');
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        eval(xhr.responseText);
+                    } else {
+                        console.error('unexpected status code:', this.status);
+                    }
+                }
+            };
+            xhr.send(null);
         });
     </script>
 </body>
